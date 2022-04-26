@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+
+
+}
+@model TOTINH.Models.LoiNhan
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Gửi lời nhắn yêu thương</title>
+</head>
+<link rel="stylesheet" href="~/Content/Style_css.css" type="text/css" />
+<body>
+    <div id="background-body">
+
+    </div>
+
+    <!--Vì ban đầu ở Controller đã khai báo ViewBag.Check = false để nhập tin nhắn-->
+    @if (!ViewBag.Check)
+    {
+        using (Html.BeginForm())
+        {
+            <div id="form">
+                @Html.AntiForgeryToken()
+                <a class="title"><strong>Gửi lời nhắn</strong></a><br>
+                <div id="form_sub">
+                <!--Textbox  nhập tên-->
+                    <a class="title">Nhập tên của bạn</a><br>
+                    @Html.TextBoxFor(model => model.yourname, new { @class = "textbox" })
+                    @Html.ValidationMessageFor(model => model.yourname, "", new { @class = "text_danger" })
+                    <!--Textbox nhập tin nhắn-->
+                    <br><a class="title">Nhập tin nhắn bạn muốn gửi</a><br>
+                    @Html.TextBoxFor(model => model.message, new { @class = "textbox" })
+                    @Html.ValidationMessageFor(model => model.message, "", new { @class = "text_danger" })
+                </div><br>
+                <input type="submit" value="Gửi" class="button_submit" />
+            </div>
+        }
+    }
+    //sau khi submit thì ViewBag.Check = true để user lấy đươc link
+    else
+    {
+
+        <div id = "form">
+            <a class="title" id = "value_text"> Link của bạn là: </a>
+            <div id = "form_sub">
+                <input type="text" value="@ViewBag.Controller"  class = "textbox" readonly>
+                
+            </div>
+            <button class="button_submit" onclick="copyToClipboard('@ViewBag.Controller')">Copy Link</button>
+        </div>
+    }
+</body>
+<script>
+
+    function copyToClipboard(text) {
+        const elem = document.createElement('textarea');
+        elem.value = text;
+        document.body.appendChild(elem);
+        elem.select();
+        document.execCommand('copy');
+        document.body.removeChild(elem);
+     }
+</script>
+</html>

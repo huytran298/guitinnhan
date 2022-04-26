@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+
+
+}
+@model TOTINH.Models.LoiNhan
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nhận lời nhắn</title>
+</head>
+<link rel="stylesheet" href="~/Content/Style_css.css" type="text/css" />
+<body>
+    <div id="background-body">
+    </div>
+    @if (!ViewBag.Check)
+    {
+        using (Html.BeginForm())
+        {
+            
+            <div id="form">
+                @Html.AntiForgeryToken()
+                <a class="title">Nhập mật khẩu để lời nhắn</a>
+                <br>
+                <div id="form_sub">
+                    <a class="title">Nhập tên của người gửi</a><br>
+                    @Html.TextBoxFor(model => model.password, new { @class = "textbox" })
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text_danger" })
+                    @Html.ValidationSummary(true, null, new { @class = "text_danger" })
+                </div>
+                <br>
+                <input type="submit" value="Gửi" class="button_submit" />
+            </div>
+
+        }
+    }
+    else
+    {
+        
+        <div id="form">
+            <p class="title">Lời nhắn <a style="color: red;">@ViewBag.name</a> gửi tới bạn:</p>
+            <div id="form_sub">
+                <a class="title_result">@ViewBag.Message</a>
+            </div>
+
+        </div>
+    }
+
+
+</body>
+</html>
